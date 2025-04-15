@@ -1,0 +1,40 @@
+sudo -i -u postgres
+psql 
+
+\c testdb
+
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(128),
+    email VARCHAR(128) UNIQUE
+);
+
+INSERT INTO users (name,email) VALUES ('Afifa', 'afifa@example.com');
+
+SELECT * FROM users;
+
+INSERT INTO users (name, email) VALUES ('Ali', 'ali@example.com');
+
+Agar yangi PostgreSQL foydalanuvchisi yaratmoqchi bo‘lsang:
+
+CREATE USER afifa WITH PASSWORD 'parol123';
+
+GRANT ALL PRIVILEGES ON DATABASE testdb TO afifa; -Va unga testdb bazasiga huquq berish:
+
+bundan song chiqib:
+
+psql -U afifa -d testdb -h localhost
+
+-U afifa → foydalanuvchi nomi,
+-d testdb → ulanmoqchi bo‘lgan baza,
+-h localhost → local host.
+
+Tizim sendan parol so‘raydi — sen: parol123
+
+GRANT SELECT ON users TO afifa; - Endi users jadvaliga afifaga ruxsat beramiz
+
+GRANT INSERT, UPDATE, DELETE ON users TO afifa;- Agar siz unga yozish yoki o‘chirish ham bermoqchi bo‘lsangiz
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO afifa; -Agar barcha huquqlarni bermoqchi bo‘lsangiz
+
+

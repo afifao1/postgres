@@ -1,0 +1,51 @@
+Postgres SQL (to‘liq nomi PostgreSQL) bu — kuchli, 
+bepul va ochiq kodli ma'lumotlar bazasi tizimi. 
+U ko‘proq imkoniyatlarga ega, ayniqsa katta va murakkab loyihalarda juda foydali
+
+PostgreSQL — bu ma'lumotlar bazasini boshqarish tizimi (DBMS). Ya'ni, u orqali:
+Ma'lumotlarni saqlash,
+Ularni qo‘shish (INSERT),
+O‘qish (SELECT),
+Yangilash (UPDATE),
+O‘chirish (DELETE) ishlarini bajarish mumkin.
+
+PostgreSQL SQL tilidan foydalanadi. SQL — bu Structured Query Language, 
+ya’ni ma’lumotlar bilan ishlash tili. PostgreSQL esa bu til orqali ma’lumotlar bilan amallar bajaradi.
+
+ACID qo‘llab-quvvatlashi	Juda ishonchli tranzaksiyalar uchun (bank tizimlari uchun ideal)
+JSON qo‘llab-quvvatlaydi	Yani strukturalangan ma'lumotlarni saqlash mumkin
+Full-text search	        Matnli qidiruv qilish mumkin
+Replikatsiya	            Bir nechta serverlar orasida ma’lumotlarni nusxalash mumkin
+Extensions (plaginlar)	    Masalan, PostGIS - geolokatsion ma’lumotlar uchun
+
+Postgresni o`natish uchun birinchi bo`lib
+"sudo apt update" obnovleniya berib yuboramiz
+
+"sudo apt install postgresql postgresql-contrib"
+
+Bu buyruq:
+postgresql — asosiy ma'lumotlar bazasini,
+postgresql-contrib — qo‘shimcha kerakli vositalarni o‘rnatadi.
+
+PostgreSQL xizmatini tekshiramiz:
+"sudo systemctl status postgresql"
+Agar "active (running)" deb tursa — hammasi joyida ✅
+Agar ishlamayotgan bo‘lsa, ishga tushiramiz:
+"sudo systemctl start postgresql"
+
+Postgresga kirish uchun 
+"sudo -i -u postgres"
+"psql" - 
+psql ichiga — ya’ni PostgreSQL komanda oynasiga olib kiradi.
+
+"\du" - foydalanuvchilarni ko`rish
+"\l"  - ma`lumotlar bazalarini ko`rish
+"\q"  - chiqish
+"\c"  - databaza bilan ulanish
+Agar PHP bilan ishlamoqchi bo‘lsangiz:
+"sudo apt install php-pgsql" - PHP uchun pgsql extension kerak.
+
+
+
+
+
