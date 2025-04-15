@@ -1,0 +1,146 @@
+Ngnix o`zi nima?
+Web server va Reverse Proxy bo`lib ishlaydigan dastur.
+Ya'ni u foydalanuvchidan browser'dan kelgan so`rovolarni qabul qiladi, tahlil qiladi, va to`g`ri joyga yuboradi.(phpga)
+Ngnix - bu internetda web-saytlar qanday ochilishini boshqaradigan "trafik-tartibchisi". Foydalanuvchi biror saytga kirsa, birinchi Ngnix so`rovni qabul qiladi
+va uni kerakli fayl yo`ki serverga jo`natadi.
+
+Reverse Proxy nima?
+Reverse Proxy bu - foydalanuvhibilan asosiy server (backend) orasida turgan "oraliq server"
+Foydalanuvchi hech qachon to`g`ridan-to`g`ri backend serverga murojat qilmaydi, balki avval reverse proxy orqali o`tadi
+Reverse Proxy nima uchun kerak?
+1.Xavfsizlik (Security):
+    Asosiy server yashirin bo`ladi. Foydalanuvchi uni IP manzilini bilmaydi.
+2.Load Balancing:
+    Kop backend serverlar bolsa, ularning orasida yukni teng taqsimlaydi.
+3.Kesh (Cache):
+    Ma'lum javoblarni eslab qoladi va tezroq yetkazadi.
+4.SSL reminatsiya:
+    HTTPS sertifikatlarini reverse proxy qabul qiladi, backendga oddiy HTTP yuboradi.
+
+Browser (yo`ki "web browser") - internetdagi veb-sahifalarni ko`rish va o`rganish uchun ishlatiladigan dastur
+Browserning asosiy vazifalari:
+1. Web sahifalarni yuklash: Browser URL (masalan, www.google.com) orqali web sahifani internetdan yuklab olishga yordam beradi.
+2. HTML,CSS, va JavaScriptni ko`rsatish: Veb-sahifalar HTML(strukturasi), CSS(dizayni), va JavaScript(interaktivligi) yordamida ko`rsatiladi.
+3. Foydalanuchi bilan o`zaro aloqada bo`lish: Browser foydalanuvchi bilan o`zaro aloqani ta`minlaydi(masalan, tugmalarni bosish, formalani yuborish)
+Eng mashhur Browserlar:
+    Google Chrome
+    Mozilla Firefox
+    Safari
+    Microsoft Edge
+    Opera
+Browser qanday ishlaydi?
+1.Foydalanuvchi URL kiritadi.
+2.Browser DNS serveridan saytning IP manzilini so`raydi.
+3.Serverga HTTP/HTTPS so`rovi yuboriladi.
+4.Serverdan HTML, CSS va JavaScript ma'lumotlari olinadi.
+5.Browser bu ma`lumotlarni foydalanuchiga korsatadi.
+
+Ngnix qayerda ishlatiladi?
+PHP saytlar (Laravel, Symfony)   -> Ngnix + PHP-FPM
+NodeJS, React, Vue loyihalarda   -> Ngnix proxy sifatida ishlaydi
+Static saytlar (faqat HTML, CSS) -> bevosita xizmat ko`rsatadi
+Telegram bot, API serverlar      -> Ngnix orqali tashqari dunyoga ochiladi
+
+Ngnixning asosiy afzalliklari:
+✅ Tez ishlaydi
+✅ Ko`p trafikni ko`tara oladi
+✅ Oddiy konfiguratsiya
+✅ Static fayllarni tez berib yuboradi
+✅ Reverse proxy bolib boshqa serverlarga yo`llaydi
+
+Ngnix o`rnatishdan oldin birinchi bo`lib
+    "sudo apt update" komandasini terminalda terish kerak,
+Bu komanda nima qiladi?
+    “Internetda eng so‘nggi paketlar ro‘yxatini olib kel!” — deb aytadi.
+    Bu ro‘yxat quyidagilarni o‘z ichiga oladi:
+    Yangi versiyalar mavjudmi?
+    Yangi dasturlar qo‘shildimi?
+    Eski dasturlarda o‘zgarish bo‘ldimi?
+
+Nima uchun bu muhim?
+    Agar apt update qilmasak:
+    Tiziming eski ro‘yxatdagi paketlar bilan ishlaydi.
+    Nginx’ning eski yoki hatto noto‘g‘ri versiyasi o‘rnatilishi mumkin.
+    Ba'zan esa, umuman topolmaydi (Unable to locate package nginx xatolik chiqadi).
+
+Ngnixni o`rnatish uchun 
+"sudo apt -y install nginx"
+bu komanda ngnixni o`rantib beradi
+
+"sudo apt -y install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath"
+Bu buyruq PHP va unga kerakli qo‘shimcha modullarni o‘rnatadi. 
+
+🧱 Asosiy PHP va modullar:
+php	            PHP tilining o‘zi. Bosh modul.
+php-cli	        Terminal (komanda satri) orqali PHP skriptlarni ishga tushirish uchun.
+php-fpm	        Web serverlar (masalan, Nginx) bilan ishlash uchun PHP'ni tezlashtiradi.
+
+🗃 Ma’lumotlar bazasi bilan ishlovchi modullar:
+php-pdo	        PDO: PHPda ma’lumotlar bazasiga xavfsiz ulanish uchun.
+php-mysql	    MySQL/MariaDB bazasiga ulanish uchun. PDO bilan birga ishlaydi.
+
+🧩 Qo‘shimcha imkoniyatlar:
+php-json	    JSON format bilan ishlash uchun. API'lar va JavaScript bilan aloqada muhim.
+php-zip 	    ZIP fayllar bilan ishlash (arxiv yaratish, ochish).
+php-gd	        Rasmlar bilan ishlash (resize, crop, rasmga yozuv qo‘shish va h.k.).
+php-mbstring	Ko‘p baytli belgilar (UTF-8, arabcha, o‘zbekcha h.k.) bilan ishlash.
+php-curl	    Internetdagi boshqa serverlar bilan bog‘lanish (API chaqirish).
+php-xml	        XML fayllar bilan ishlash uchun. Ko‘p kutubxonalar buni talab qiladi.
+php-pear	    PEAR – PHP kengaytmalarini boshqarish tizimi. Paketlar o‘rnatish uchun.
+php-bcmath	    Katta sonlar bilan aniq hisob-kitob qilish uchun. Moliyaviy tizimlarda foydali.
+
+"sudo nano /etc/php/8.3/fpm/pool.d/www.conf"
+www.conf nomli PHP-FPM sozlama faylini ochadi
+Bu fayl orqali PHP-FPM’ning ishlash tartibini sozlaymiz
+
+/etc/	        Tizimdagi konfiguratsiya fayllari joylashgan papka
+php/8.3/	    PHP 8.3 versiyasiga tegishli fayllar
+fpm/	        PHP-FPM bilan bog‘liq fayllar
+pool.d/	        FPM "pool" larining sozlamalari saqlanadigan joy
+www.conf	    www nomli "pool" ning asosiy sozlama fayli
+
+🛠 www.conf faylida nima sozlanadi?
+Bu faylda juda muhim parametrlar bo‘ladi, masalan:
+user                                    = www-data	PHP-FPM qaysi foydalanuvchi nomidan ishlashi
+group                                   = www-data	PHP-FPM qaysi guruh nomidan ishlashi
+listen                                  = /run/php/php8.3-fpm.sock	PHP-FPM qayerda tinglaydi (Nginx shu fayl orqali PHP bilan bog‘lanadi)
+pm                                      = dynamic	Process boshqaruvi usuli (static, dynamic, ondemand)
+pm.max_children	                        = Maksimal ishlovchi PHP jarayonlar soni
+php_admin_value[upload_max_filesize]    = 10M	Fayl yuklash chegarasi
+
+"sudo cp /etc/nginx/nginx.conf /etc/nginx/sites-available/default"
+nginx.conf faylini olib, sites-available/default fayliga nusxalaydi.
+Ya'ni:
+Asosiy sozlamalarni default sayt konfiguratsiyasiga ko‘chirib qo‘yadi.
+Shundan keyin siz default sayt konfiguratsiyasini o'zgartirib, o'z loyihangizga moslab ishlatishingiz mumkin.
+Odatda nginx.conf — bu butun Nginx serverni boshqaruvchi fayl, u virtual hostlar, modullar, loglar, include’lar va boshqa umumiy narsalarni o‘z ichiga oladi.
+sites-available/default esa — bitta sayt uchun (masalan, localhost) konfiguratsiya yoziladigan fayl.
+
+server {                            (Bu — bitta sayt uchun konfiguratsiya boshlanishi. Har bir server {} bloki — bitta "virtual host" degani.)
+    listen 8888;                    (qaysi portda ishlashi)
+    server_name localhost;          (domen nomi)
+    root /var/www/qrkod;            (Bu saytning asosiy papkasi — ya'ni sayt fayllari shu yerda saqlanadi)
+    index index.php;                (Brauzerdan localhost:8888 deb kirganingda, u avtomatik index.php faylni yuklaydi)
+
+    location / {                    (Bu asosiy yo‘nalishni bildiradi (/ = saytning bosh sahifasi))
+        try_files $uri $uri/ =404;  (Avval $uri — ya’ni brauzerda yozilgan yo‘l tekshiriladi. Keyin $uri/ — ya’ni katalog bo‘lishi mumkinmi, deb tekshiriladi. Hech biri topilmasa, 404 xatolik qaytariladi)
+    }
+
+    location ~ \.php$ {                                                     (Bu PHP fayllar uchun maxsus qoidalar. Har qanday .php faylni aniqlaydi.)
+        fastcgi_pass unix:/run/php/php-fpm.sock;                            (PHP fayllarni php-fpm orqali bajaradi.Bu yerda php-fpm.sock — PHP’ni ishlatuvchi "server" soketi.)
+        fastcgi_index index.php;                                            (PHP faylni bajarayotganda, asosiy fayl sifatida index.phpni ishlatish kerak degani.)
+        include fastcgi_params;                                             (Bu PHP bajarilishi uchun kerakli sozlamalarni yuklab beradi. Ularni alohida fayl fastcgi_params dan olib keladi (bu fayl Nginx bilan birga keladi).)
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;   (Bu PHP’ga to‘g‘ri fayl manzilini uzatadi. $document_root = root (ya’ni /var/www/qrkod). $fastcgi_script_name = chaqirilgan PHP fayl. Misol: localhost:8888/hello.php bo‘lsa, bu /var/www/qrkod/hello.php bo‘la)
+    }
+} bu konfiguratsiya fayli
+
+Loyihani ishga tushirirish uchun:
+"sudo nano /etc/nginx/sites-available/qr.conf" qr.conf fayl yaratamiz
+Uning ichiga konfiguratsiya faylini yozish kerak
+"sudo ln -s /etc/nginx/sites-available/qr.conf /etc/nginx/sites-enabled/" uni enabled papkasiga yuklashimiz kerak
+"sudo nginx -t" Agar successful bo‘lsa: "sudo systemctl reload nginx"
+
+Agar biz loyihamizni ozimiz nomlagan nomda chaqirmoqchi bo`lsak 
+"sudo nano /etc/hosts" ichiga kirib 
+uning pastiga misol:(127.0.0.1 "google.com")
+shunday yozishimiz kerak 
